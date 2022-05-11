@@ -1,23 +1,50 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import { DateRangePicker } from 'react-dates';
+import moment from 'moment'
+import 'react-dates/initialize';
+
+import 'react-dates/lib/css/_datepicker.css';
 import './App.css';
 
 function App() {
+  const [focus, setFocus] = useState(null)
+  const [startDate, setStartDate] = useState(new moment());
+  const [endDate, setEndDate] = useState(new moment());
+
+  const handleFocusChange = (focus) => {
+    setFocus(focus)
+  }
+
+  const handleChangeDates = ({ startDate, endDate }) => {
+    console.log({ startDate, endDate })
+    setStartDate(startDate)
+    setEndDate(endDate)
+  }
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div 
+        className='CalendarPicker'
+        data-testid={"CalendarPicker"}
         >
-          Learn React
-        </a>
+        <h2>Pick a Date:</h2>
+        
+        <DateRangePicker
+          startDateId='start-date'
+          endDateId='end-date'
+          startDate={startDate}
+          endDate={endDate}
+          focusedInput={focus}
+          onDatesChange={handleChangeDates}
+          onFocusChange={handleFocusChange}
+        />
+      </div>
+      <header className="App-header">
+        Learn React
       </header>
+
     </div>
   );
 }
